@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#ffffff}
+  ::selection{background:var(--accent,#0096DB);color:#fff}
+  @keyframes kiutPulse{0%,100%{opacity:.35}50%{opacity:1}}
+  @media (max-width:600px){ .kiut-nav-cta{ display:none !important; } }
+</style>
+</helmet>
+
+<div data-screen-label="KIUT Landing" style="--accent: {{ accentVar }}; --ink:#1d1d1f; --soft:#6e6e73; --pane:#f5f5f7; --line:#e6e6e8; position:relative; width:100%; background:#ffffff; color:#1d1d1f; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; letter-spacing:-.01em; overflow-x:clip;">
+
+  <!-- PRELOADER -->
+  <div style="position:fixed; inset:0; z-index:90; background:#fff; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:22px; transition:opacity .6s ease, transform .8s cubic-bezier(.7,0,.3,1); opacity:{{ preOpacity }}; transform:translateY({{ preShift }}); pointer-events:{{ prePointer }};">
+    <div style="display:flex; align-items:center; gap:15px;">
+      <img src="assets/kiut-logo.png" alt="KIUT" style="height:46px; width:auto;">
+      <span style="font-size:32px; font-weight:300; color:#d2d2d7; line-height:0;">/</span>
+      <img src="assets/kun-logo.svg" alt="Kun.uz" style="height:34px; width:auto;">
+    </div>
+    <div style="width:110px; height:2px; background:#ececef; overflow:hidden;">
+      <div style="width:42%; height:100%; background:var(--accent,#0096DB); animation:kiutPulse 1.05s ease-in-out infinite;"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:40; background:rgba(255,255,255,.82); backdrop-filter:saturate(180%) blur(18px); -webkit-backdrop-filter:saturate(180%) blur(18px); border-bottom:1px solid var(--line);">
+    <div style="max-width:1320px; margin:0 auto; height:clamp(54px,4.6vw,64px); padding:0 clamp(18px,4vw,40px); display:flex; align-items:center; justify-content:space-between; gap:18px;">
+      <a href="#top" style="display:flex; align-items:center; gap:13px; flex-shrink:0; text-decoration:none;"><img src="assets/kiut-logo.png" alt="KIUT" style="height:clamp(30px,2.8vw,40px); width:auto; display:block;"><span style="font-size:clamp(22px,2.4vw,32px); font-weight:300; color:#cfcfd4; line-height:0;">/</span><img src="assets/kun-logo.svg" alt="Kun.uz" style="height:clamp(21px,2.1vw,30px); width:auto; display:block;"></a>
+      <div style="display:flex; align-items:center; gap:6px; flex-wrap:nowrap;">
+        <div style="display:flex; align-items:center; background:var(--pane); border-radius:980px; padding:3px;">
+          <sc-for list="{{ langButtons }}" as="l" hint-placeholder-count="4">
+            <button onClick="{{ l.set }}" style="border:0; cursor:pointer; font-family:inherit; font-size:12px; font-weight:{{ l.weight }}; letter-spacing:0; padding:6px 11px; border-radius:980px; background:{{ l.bg }}; color:{{ l.fg }}; transition:all .2s;">{{ l.label }}</button>
+          </sc-for>
+        </div>
+        <a href="{{ applyUrl }}" target="_blank" rel="noopener" class="kiut-nav-cta" style="font-size:13px; font-weight:600; color:#fff; background:var(--accent,#0096DB); text-decoration:none; padding:8px 16px; border-radius:980px; white-space:nowrap; transition:opacity .2s;" style-hover="opacity:.85;">{{ t.apply }}</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" data-screen-label="Hero" style="padding:clamp(70px,11vh,130px) clamp(20px,5vw,40px) clamp(40px,6vh,70px); text-align:center;">
+    <div style="max-width:1000px; margin:0 auto;">
+      <h1 data-reveal style="font-weight:700; font-size:clamp(32px,4.7vw,58px); line-height:1.07; letter-spacing:-.03em; margin:0 auto; max-width:32ch; text-wrap:balance;">{{ t.heroTitle.pre }}<span style="color:var(--accent,#0096DB);">{{ t.heroTitle.accent }}</span>{{ t.heroTitle.post }}</h1>
+      <p data-reveal data-reveal-delay="90" style="margin:26px auto 0; max-width:66ch; font-size:clamp(14.5px,1.35vw,17px); line-height:1.62; font-weight:400; color:var(--soft);">{{ t.heroLead }}</p>
+      <div data-reveal data-reveal-delay="150" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:32px;">
+        <a href="{{ applyUrl }}" target="_blank" rel="noopener" style="background:var(--accent,#0096DB); color:#fff; text-decoration:none; font-size:16px; font-weight:600; padding:13px 28px; border-radius:980px; transition:transform .25s;" style-hover="transform:translateY(-1px);">{{ t.apply }}</a>
+        <button onClick="{{ scrollVideo }}" style="background:transparent; color:var(--accent,#0096DB); border:0; font-family:inherit; font-size:16px; font-weight:400; cursor:pointer; padding:13px 6px;" style-hover="text-decoration:underline;">{{ t.watch }} ›</button>
+      </div>
+    </div>
+
+    <!-- VIDEO (below hero) -->
+    <div id="video" data-reveal data-reveal-delay="200" style="max-width:1120px; margin:clamp(40px,6vh,72px) auto 0;">
+      <div style="position:relative; border-radius:22px; overflow:hidden; aspect-ratio:16/9; background:#e9ebee; box-shadow:0 30px 70px -44px rgba(0,0,0,.4);">
+        <sc-if value="{{ showVideo }}" hint-placeholder-val="{{ false }}">
+          <iframe src="{{ videoSrc }}" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
+        </sc-if>
+        <sc-if value="{{ showPoster }}" hint-placeholder-val="{{ true }}">
+          <img src="assets/hero-steps.png" alt="KIUT" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+          <button onClick="{{ openVideo }}" aria-label="play" style="position:absolute; inset:0; margin:auto; width:82px; height:82px; border-radius:50%; border:0; background:rgba(255,255,255,.22); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); color:#fff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .25s, background .25s;" style-hover="transform:scale(1.08); background:var(--accent,#0096DB);">▶</button>
+        </sc-if>
+      </div>
+    </div>
+  </header>
+
+  <!-- STUDENTS -->
+  <section id="students" data-screen-label="Students" style="padding:clamp(70px,11vh,140px) clamp(20px,5vw,40px); background:var(--pane);">
+    <div style="max-width:1320px; margin:0 auto;">
+      <div data-reveal style="margin-bottom:clamp(30px,4.5vh,52px); max-width:34ch;">
+        <h2 style="font-weight:700; font-size:clamp(28px,4vw,50px); line-height:1.08; letter-spacing:-.025em; margin:0 0 12px;">{{ t.studentsTitle }}</h2>
+        <p style="margin:0; font-size:clamp(15px,1.4vw,18px); line-height:1.5; font-weight:400; color:var(--soft);">{{ t.studentsIntro }}</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:clamp(14px,1.6vw,22px);">
+        <sc-for list="{{ students }}" as="s" hint-placeholder-count="4">
+          <article data-reveal data-reveal-delay="{{ s.delay }}">
+            <div style="position:relative; aspect-ratio:5/4; overflow:hidden; border-radius:18px; background:#dfe2e6;">
+              <img src="{{ s.img }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:{{ s.pos }}; transition:transform .9s cubic-bezier(.16,1,.3,1);" style-hover="transform:scale(1.05);">
+              <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(10,12,14,.6) 0%, rgba(10,12,14,.08) 44%, transparent 70%);"></div>
+              <div style="position:absolute; left:20px; bottom:18px; right:20px;">
+                <h3 style="margin:0 0 3px; font-weight:600; font-size:clamp(22px,2.1vw,28px); line-height:1.05; letter-spacing:-.02em; color:#fff;">{{ s.name }}</h3>
+                <div style="font-size:13px; font-weight:400; color:rgba(255,255,255,.82);">{{ s.label }}</div>
+              </div>
+            </div>
+            <p style="margin:16px 4px 0; font-size:14.5px; line-height:1.55; font-weight:400; color:var(--ink);">{{ s.quote }}</p>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story" data-screen-label="Story" style="padding:clamp(74px,12vh,150px) clamp(20px,5vw,40px);">
+    <div style="max-width:1140px; margin:0 auto; display:flex; flex-direction:column; gap:clamp(58px,9vh,110px);">
+      <sc-for list="{{ stories }}" as="b" hint-placeholder-count="4">
+        <article data-reveal style="display:flex; flex-direction:{{ b.dir }}; flex-wrap:wrap; align-items:center; gap:clamp(28px,5vw,72px);">
+          <div style="flex:1 1 340px; min-width:280px;">
+            <div style="aspect-ratio:3/2; overflow:hidden; border-radius:20px; background:#dfe2e6;">
+              <img src="{{ b.img }}" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+          <div style="flex:1 1 320px; min-width:280px;">
+            <h3 style="font-weight:700; font-size:clamp(24px,3vw,40px); line-height:1.12; letter-spacing:-.025em; margin:0 0 20px;">{{ b.title }}</h3>
+            <p style="margin:0; font-size:clamp(15px,1.3vw,17px); line-height:1.7; font-weight:400; color:var(--ink);">{{ b.text }}</p>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section data-screen-label="Gallery" style="padding:clamp(70px,11vh,140px) clamp(20px,5vw,40px); background:var(--pane);">
+    <div style="max-width:1360px; margin:0 auto;">
+      <h2 data-reveal style="font-weight:700; font-size:clamp(28px,4vw,50px); line-height:1.08; letter-spacing:-.025em; margin:0 0 clamp(28px,4vh,44px);">{{ t.galleryTitle }}</h2>
+      <div style="column-count:3; column-gap:14px;">
+        <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="12">
+          <figure data-reveal style="break-inside:avoid; margin:0 0 14px; position:relative; overflow:hidden; border-radius:14px; background:#dfe2e6;">
+            <img src="{{ g.src }}" alt="{{ g.cap }}" loading="lazy" style="width:100%; display:block; transition:transform .9s cubic-bezier(.16,1,.3,1);" style-hover="transform:scale(1.04);">
+            <figcaption style="position:absolute; left:0; right:0; bottom:0; padding:30px 14px 13px; font-size:12.5px; font-weight:500; color:#fff; background:linear-gradient(to top, rgba(10,12,14,.66), transparent); opacity:0; transition:opacity .35s;" style-hover="opacity:1;">{{ g.cap }}</figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTES (book format) -->
+  <section data-screen-label="Quotes" style="padding:clamp(74px,12vh,150px) clamp(20px,5vw,40px);">
+    <div style="max-width:1140px; margin:0 auto;">
+      <h2 data-reveal style="font-weight:700; font-size:clamp(26px,3.6vw,44px); line-height:1.1; letter-spacing:-.025em; margin:0 0 clamp(30px,4.5vh,50px); text-align:center;">{{ t.quotesTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(16px,2vw,26px);">
+        <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="4">
+          <blockquote data-reveal style="margin:0; background:#faf8f3; border:1px solid #ece8df; border-radius:20px; padding:clamp(30px,3.4vw,48px); display:flex; flex-direction:column; min-height:230px; box-shadow:0 24px 50px -40px rgba(40,36,28,.5);">
+            <div style="font-family:Georgia,'Times New Roman',serif; font-size:46px; line-height:.7; color:var(--accent,#0096DB); margin-bottom:14px;">“</div>
+            <p style="font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(19px,1.9vw,25px); line-height:1.42; letter-spacing:-.005em; margin:0; color:#23211c; flex:1;">{{ q.text }}</p>
+            <cite style="margin-top:22px; font-style:normal; font-size:13px; font-weight:600; letter-spacing:-.01em; color:var(--soft);">— {{ q.who }}</cite>
+          </blockquote>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECOND HOME -->
+  <section data-screen-label="Second home" style="padding:clamp(74px,13vh,160px) clamp(20px,5vw,40px); background:var(--pane);">
+    <div style="max-width:860px; margin:0 auto; text-align:center;">
+      <h2 data-reveal style="font-weight:700; font-size:clamp(28px,4.6vw,58px); line-height:1.1; letter-spacing:-.03em; margin:0;">{{ t.homeTitle.pre }}<span style="color:var(--accent,#0096DB);">{{ t.homeTitle.accent }}</span>{{ t.homeTitle.post }}</h2>
+      <p data-reveal data-reveal-delay="90" style="margin:30px auto 0; max-width:60ch; font-size:clamp(16px,1.45vw,19px); line-height:1.7; font-weight:400; color:var(--ink);">{{ t.homeBody }}</p>
+    </div>
+    <div data-reveal style="max-width:1080px; margin:clamp(46px,7vh,80px) auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:clamp(12px,1.4vw,18px);">
+      <sc-for list="{{ kiutStats }}" as="k" hint-placeholder-count="4">
+        <div style="background:#fff; border-radius:18px; padding:32px 26px; text-align:left;">
+          <div style="font-weight:700; font-size:clamp(28px,3vw,40px); line-height:1; letter-spacing:-.02em; color:var(--accent,#0096DB); margin-bottom:12px;">{{ k.num }}</div>
+          <div style="font-size:13.5px; line-height:1.45; font-weight:400; color:var(--soft);">{{ k.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ADMISSION (Apple-style photo cards) -->
+  <section id="admission" data-screen-label="Admission" style="padding:clamp(74px,12vh,150px) clamp(20px,5vw,40px);">
+    <div style="max-width:1320px; margin:0 auto;">
+      <div data-reveal style="text-align:center; max-width:760px; margin:0 auto clamp(36px,5vh,56px);">
+        <h2 style="font-weight:700; font-size:clamp(30px,4.4vw,56px); line-height:1.08; letter-spacing:-.03em; margin:0 0 16px;">{{ t.admTitle }}</h2>
+        <p style="margin:0 0 28px; font-size:clamp(16px,1.5vw,20px); line-height:1.5; font-weight:400; color:var(--soft);">{{ t.admSub }}</p>
+        <a href="{{ applyUrl }}" target="_blank" rel="noopener" style="display:inline-block; background:var(--accent,#0096DB); color:#fff; text-decoration:none; font-size:16px; font-weight:600; padding:13px 30px; border-radius:980px; transition:transform .25s;" style-hover="transform:translateY(-1px);">{{ t.apply }}</a>
+        <a href="{{ applyUrl }}" target="_blank" rel="noopener" style="display:block; margin:16px auto 0; font-size:15px; font-weight:500; color:var(--accent,#0096DB); text-decoration:none;" style-hover="text-decoration:underline;">admission.kiut.uz →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:clamp(14px,1.6vw,22px);">
+        <sc-for list="{{ admCards }}" as="c" hint-placeholder-count="4">
+          <div data-reveal style="background:var(--pane); border-radius:24px; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="padding:clamp(26px,2.8vw,36px) clamp(22px,2.4vw,30px) clamp(18px,2.2vw,24px); text-align:center;">
+              <h3 style="font-weight:600; font-size:clamp(20px,1.9vw,25px); line-height:1.14; letter-spacing:-.02em; margin:0 0 12px;">{{ c.title }}</h3>
+              <p style="margin:0 0 16px; font-size:14px; line-height:1.5; font-weight:400; color:var(--soft);">{{ c.body }}</p>
+              <a href="{{ c.url }}" target="_blank" rel="noopener" style="color:var(--accent,#0096DB); text-decoration:none; font-size:14.5px; font-weight:500;" style-hover="text-decoration:underline;">{{ t.admLink }} ›</a>
+            </div>
+            <div style="margin-top:auto; aspect-ratio:16/10; overflow:hidden; background:#dfe2e6;">
+              <img src="{{ c.img }}" alt="" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECTIONS (fields of study — moved to bottom) -->
+  <section id="directions" data-screen-label="Directions" style="padding:clamp(74px,12vh,150px) clamp(20px,5vw,40px); background:var(--pane);">
+    <div style="max-width:1320px; margin:0 auto;">
+      <div data-reveal style="margin-bottom:clamp(28px,4vh,46px); max-width:62ch;">
+        <h2 style="font-weight:700; font-size:clamp(28px,4vw,50px); line-height:1.08; letter-spacing:-.025em; margin:0 0 12px;">{{ t.dirTitle }}</h2>
+        <p style="margin:0; font-size:clamp(15px,1.4vw,18px); line-height:1.55; font-weight:400; color:var(--soft);">{{ t.dirIntro }}</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:clamp(12px,1.4vw,18px);">
+        <sc-for list="{{ directions }}" as="d" hint-placeholder-count="5">
+          <div style="background:#fff; border-radius:20px; padding:clamp(24px,2.6vw,32px); min-height:180px; display:flex; flex-direction:column; justify-content:space-between; gap:16px;">
+            <h3 style="font-weight:600; font-size:clamp(19px,1.8vw,24px); line-height:1.16; letter-spacing:-.02em; margin:0;">{{ d.name }}</h3>
+            <p style="margin:0; font-size:14px; line-height:1.5; font-weight:400; color:var(--soft);">{{ d.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div data-reveal style="margin-top:clamp(28px,4vh,44px);">
+        <a href="{{ dirUrl }}" target="_blank" rel="noopener" style="display:inline-block; background:var(--accent,#0096DB); color:#fff; text-decoration:none; font-size:15px; font-weight:600; padding:13px 28px; border-radius:980px; transition:transform .25s;" style-hover="transform:translateY(-1px);">{{ t.dirCta }} ›</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--pane); border-top:1px solid var(--line); padding:clamp(48px,7vh,76px) clamp(20px,5vw,40px);">
+    <div style="max-width:1320px; margin:0 auto;">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:28px;">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img src="assets/kiut-logo.png" alt="KIUT" style="height:32px; width:auto;">
+            <span style="font-size:24px; font-weight:300; color:#c4c4ca; line-height:0;">/</span>
+            <img src="assets/kun-logo.svg" alt="Kun.uz" style="height:23px; width:auto;">
+          </div>
+          <span style="font-size:13.5px; font-weight:500; color:var(--soft);">{{ t.joint }}</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:14px;">
+          <div style="font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:#86868b;">{{ t.followUs }}</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+              <a href="{{ s.url }}" target="_blank" rel="noopener" aria-label="{{ s.name }}" title="{{ s.name }}" style="width:40px; height:40px; border-radius:50%; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--soft); transition:color .2s, border-color .2s;" style-hover="color:var(--accent,#0096DB); border-color:var(--accent,#0096DB);">
+                <span style="display:inline-flex;">{{ s.glyph }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 26px; margin-top:32px; padding-top:24px; border-top:1px solid var(--line);">
+        <a href="https://www.kiut.uz" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; color:var(--ink); text-decoration:none;" style-hover="color:var(--accent,#0096DB);">🌐 www.kiut.uz</a>
+        <a href="https://admission.kiut.uz" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; color:var(--ink); text-decoration:none;" style-hover="color:var(--accent,#0096DB);">👉 admission.kiut.uz</a>
+        <a href="tel:+998781294040" style="font-size:14px; font-weight:500; color:var(--ink); text-decoration:none;" style-hover="color:var(--accent,#0096DB);">📞 +998 78 129 40 40</a>
+        <a href="https://myurls.co/kiutuz" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; color:var(--soft); text-decoration:none;" style-hover="color:var(--accent,#0096DB);">{{ t.allLinks }} ↗</a>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; margin-top:22px;">
+        <span style="font-size:13px; line-height:1.5; color:var(--soft);">{{ t.admAddress }}</span>
+        <span style="font-size:11px; font-weight:500; letter-spacing:.04em; color:#86868b; border:1px solid var(--line); padding:6px 13px; border-radius:980px; white-space:nowrap;">{{ t.adLabel }}</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0096DB&quot;,&quot;options&quot;:[&quot;#0096DB&quot;,&quot;#0066CC&quot;,&quot;#1D1D1F&quot;,&quot;#1C3F73&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Бренд&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;cyr&quot;,&quot;options&quot;:[&quot;cyr&quot;,&quot;lat&quot;,&quot;ru&quot;,&quot;en&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Тил&quot;},&quot;applyUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://admission.kiut.uz&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Ҳаволалар&quot;},&quot;videoUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://youtu.be/BTtuDp2-SmM&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Ҳаволалар&quot;}}">
+class Component extends DCLogic {
+  state = { loaded: false, showVideo: false, lang: null };
+
+  componentDidMount() {
+    let lang = this.props.defaultLang || 'cyr';
+    try { const s = localStorage.getItem('kiut_lang'); if (s) lang = s; } catch (e) {}
+    this.setState({ lang });
+    this._pre = setTimeout(() => this.setState({ loaded: true }), 950);
+    this._setupReveal();
+  }
+
+  _setupReveal() {
+    requestAnimationFrame(() => {
+      const els = document.querySelectorAll('[data-reveal]');
+      els.forEach((el) => {
+        if (el.dataset.revInit) return;
+        el.dataset.revInit = '1';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        const d = el.getAttribute('data-reveal-delay') || 0;
+        el.style.transition = 'opacity .85s cubic-bezier(.16,1,.3,1) ' + d + 'ms, transform .85s cubic-bezier(.16,1,.3,1) ' + d + 'ms';
+      });
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'none';
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+      els.forEach((el) => io.observe(el));
+    });
+  }
+
+  componentWillUnmount() { clearTimeout(this._pre); }
+
+  setLang(code) {
+    try { localStorage.setItem('kiut_lang', code); } catch (e) {}
+    this.setState({ lang: code });
+  }
+
+  renderVals() {
+    const accent = this.props.accent || '#0096DB';
+    const applyUrl = this.props.applyUrl || 'https://admission.kiut.uz';
+    const videoUrl = (this.props.videoUrl || 'https://youtu.be/BTtuDp2-SmM').trim();
+    const lang = this.state.lang || this.props.defaultLang || 'cyr';
+
+    const meta = {
+      studentsImg: ['assets/student-jackson.png', 'assets/student-josiah.png', 'assets/jackson-hunter.png', 'assets/student-sean.png'],
+      studentsPos: ['58% 26%', 'center 42%', 'center 22%', '64% 20%'],
+      storyImg: ['assets/students-chat.png', 'assets/student-library.png', 'assets/uzbek-dress.png', 'assets/handshake.png'],
+      storyDir: ['row', 'row-reverse', 'row', 'row-reverse'],
+      galleryImg: ['assets/samarkand.png', 'assets/drum-play.png', 'assets/basketball-shoot.png', 'assets/mascot.png', 'assets/uzbek-flag.png', 'assets/rector-greet.png', 'assets/girls-crowd.png', 'assets/usa-flag.png', 'assets/grass-wide.png', 'assets/drum-stage.png', 'assets/rector-student.png', 'assets/uzbek-dress.png'],
+      admImg: ['assets/american-day.png', 'assets/student-library.png', 'assets/handshake.png', 'assets/usa-flag.png'],
+      admUrl: ['https://www.kiut.uz/uz/admission/tashkent-admission/', 'https://www.kiut.uz/uz/admission/magistratura/', 'https://kiut.uz/uz/dasturlar/talim-granti-moliyaviy-komak/', 'https://www.kiut.uz/uz/admission/koreyada-talim/'],
+      dirUrl: 'https://www.kiut.uz/uz/dasturlar/bakalavr-dasturlari/',
+    };
+
+    const T = {
+      cyr: {
+        apply: 'Ҳужжат топшириш', watch: 'Видеони кўриш', joint: 'Қўшма лойиҳа', followUs: 'Биз билан боғланинг', allLinks: 'Барча ҳаволалар',
+        heroTitle: { pre: 'Келганимиз ўқиш учун эди. ', accent: 'Аммо', post: ' Ўзбекистон кутганимиздан кўпроғини берди.' },
+        heroLead: 'Ҳар бир инсоннинг ўз орзу манзили бор. Энди Ўзбекистон ҳам танловга айланмоқда. Кимдир АҚШга, кимдир Европага, яна кимдир Осиёга интилади. Аммо сўнгги йилларда бу оқим ўзгара бошлади. Бу ҳикоя айнан шу ўзгариш — тўрт америкалик талаба Тошкентни «уйим» деб атай бошлагани ҳақида.',
+        dirTitle: 'Таълим йўналишлари', dirIntro: '5 та йирик мактаб таркибида 38 та бакалавриат ва 22 та магистратура йўналиши мавжуд — уч тилда.', dirCta: 'Барча дастурлар',
+        directions: [
+          { name: 'Муҳандислик мактаби', desc: 'IT, дастурий инжиниринг, архитектура ва ахборот тизимлари.' },
+          { name: 'Тиббиёт мактаби', desc: 'Инглиз тилидаги MBBS ва USMLE йўналишидаги дастур.' },
+          { name: 'Таълим мактаби', desc: 'Инглиз ва хитой тили, таржима, педагогика.' },
+          { name: 'Санъат мактаби', desc: 'Рангтасвир, дизайн ва ижодий йўналишлар.' },
+          { name: 'Бизнес ва молия мактаби', desc: 'Банк иши, молия, менежмент ва маркетинг.' },
+        ],
+        studentsTitle: 'KIUT’нинг халқаро оиласи', studentsIntro: 'Тўрт йигит, тўрт сабаб — ва бир умумий манзил: Тошкент.',
+        students: [
+          { name: 'Шон Кума', label: 'АҚШ · 24 ёш', quote: '«Агар шунча ўзгариш бўлаётган бўлса, нега ўз кўзим билан кўрмаслигим керак?»' },
+          { name: 'Жосайя Райг', label: 'Самарқанд · Бухоро', quote: 'Буюк Ипак йўли, Самарқанд ва Бухоро тарихи орқали Ўзбекистонга келди.' },
+          { name: 'Жексон Ҳантер', label: 'Чорсу бозори', quote: '«Энг қизиқ ва фойдали тажрибани айнан Ўзбекистонда топдим.»' },
+          { name: 'Чука Меккам', label: 'Ёшлар ва спорт', quote: 'Баскетбол ва ёшларни бирлаштириш орқали бу ерга боғланди.' },
+        ],
+        stories: [
+          { title: 'Одамлардан бунчалик меҳрибонликни кутмаган эдик', text: 'Уларнинг барчаси бир фикрда: энг кучли таассуротни айнан одамлар қолдирган. Жексон Чорсу бозорида адашиб қолганида, ёши катта бир инсон Google таржимон орқали унга йўл кўрсатган. «Гаплашиш қийин эди, аммо самимий ҳаракати мени жуда таъсирлантирган», — дейди у. Шон қўшимча қилади: «Бу ердаги энг катта бойлик — одамларнинг самимийлиги».' },
+          { title: 'Бу университет бизга фақат дарс эмас, тажриба ҳам берди', text: 'Жосайянинг айтишича, бу ердаги муҳит оддий университет таълимидан кўра кўпроқ ҳаёт мактаби. Жексон университет халқаро бўлимининг доимий кўмаги мослашувни анча енгиллаштирганини таъкидлайди. Шон эса KIUT’ни имкониятлар маркази деб билади: бу ерда у нафақат билим олган, балки дарс берган, маданият алмашган.' },
+          { title: 'Ўзбекистонни таомлар орқали ҳам севиб қолдим', text: 'Шон ош ҳақида: «Биринчи марта ош еган кунимни яхши эслайман. Ҳозир у кундалик ҳаётимнинг бир қисми». Лағмон ҳақида кулиб қўшади: «Лағмон инсониятга берилган энг яхши совғалардан бири бўлса керак». Жосайянинг энг севимли таоми — мастава. Чука эса: «Бу ерда овқат шунчаки қорин тўйдириш эмас, у одамларни бир дастурхон атрофида жамлайди».' },
+          { title: 'Дўстлик тилларни ҳам, чегараларни ҳам танламайди', text: 'Шон спайкбол ўйини орқали ўзбекистонлик йигит билан танишган, бу дўстликка айланган: «Тиллар ҳар хил, маданиятлар фарқ қилади, аммо инсонлар қалбан бир-бирига жуда ўхшаш». Жосайя биринчи семестрдаёқ маҳаллий талабалар билан дўстлашган: «Бу ерда дўст топиш ўйлагандан осон бўлди».' },
+        ],
+        galleryTitle: 'Тошкентдаги ҳаёт кадрларда',
+        gallery: ['Самарқанд — Шоҳи Зинда', 'Миллий созлар билан танишув', 'Кампусдаги баскетбол майдони', 'KIUT маскоти билан', 'Ўзбекистон байроғи остида', 'Меҳмонларни кутиб олиш', 'Талабалар суҳбати', 'Икки маданият — бир макон', 'Кампус ҳовлисида', 'Play the drum, win KIUT gifts', 'Очиқ эшиклар куни', 'Миллий либосда'],
+        quotesTitle: 'Уларнинг сўзлари билан',
+        quotes: [
+          { text: 'Бу ердаги энг катта бойлик — одамларнинг самимийлиги.', who: 'Шон Кума' },
+          { text: 'Мен Ўзбекистонда ўзимни ҳеч қачон ёлғиз ҳис қилмаганман.', who: 'Чука Меккам' },
+          { text: 'Тиллар ҳар хил бўлиши мумкин, маданиятлар фарқ қилади, аммо инсонлар қалбан бир-бирига ўхшаш.', who: 'Шон Кума' },
+          { text: 'Менга энг ёққан таом — мастава. Улар бизга ўзимизни уйдагидек ҳис қилишга ёрдам берди.', who: 'Жосайя Райг' },
+        ],
+        homeTitle: { pre: 'Бу ер бизнинг ', accent: 'иккинчи уйимизга', post: ' айланди' },
+        homeBody: 'Бир сафар Жосайя Америкага дўстининг тўйига қайтди. «Ҳамма нарса таниш эди, аммо ўшанда тушундимки, бу энди менинг уйим эмас». Орадан кўп ўтмай у яна Тошкентга қайтди. Самолёт қўнгач, хаёлидан бир фикр ўтди: «Мен уйга қайтдим».',
+        kiutStats: [
+          { num: '2018', label: 'Биринчи хусусий университет' },
+          { num: '3 шаҳар', label: 'Тошкент, Наманган, Самарқанд' },
+          { num: '50+', label: 'Хорижий ҳамкор университет' },
+          { num: '2+2', label: 'Корея билан қўшма дастур' },
+        ],
+        admTitle: 'Сиз ҳам ўз ҳикоянгизни шу ердан бошланг', admSub: 'KIUT’да 2026/2027 ўқув йилига қабул бошланди.', admLink: 'Батафсил',
+        admCards: [
+          { title: 'Бакалавриат', body: 'Кундузги ва кечки таълим — ўзбек, рус ва инглиз тилларида.' },
+          { title: 'Магистратура', body: 'Магистратура дастурлари бўйича қабул ва йўналишлар.' },
+          { title: 'Грантлар ва стипендиялар', body: 'Истеъдодли ва хорижий талабалар учун молиявий имкониятлар.' },
+          { title: '2+2 қўшма таълим дастури', body: 'Корея университетлари билан халқаро диплом имконияти.' },
+        ],
+        admAddress: 'Манзил: Тошкент, Яккасарой тумани, Ш. Руставели кўчаси, 156',
+        adLabel: 'Реклама · Махсус лойиҳа',
+      },
+      lat: {
+        apply: 'Hujjat topshirish', watch: 'Videoni koʻrish', joint: 'Qoʻshma loyiha', followUs: 'Biz bilan bogʻlaning', allLinks: 'Barcha havolalar',
+        heroTitle: { pre: 'Kelganimiz oʻqish uchun edi. ', accent: 'Ammo', post: ' Oʻzbekiston kutganimizdan koʻprogʻini berdi.' },
+        heroLead: 'Har bir insonning oʻz orzu manzili bor. Endi Oʻzbekiston ham tanlovga aylanmoqda. Kimdir AQShga, kimdir Yevropaga, yana kimdir Osiyoga intiladi. Ammo soʻnggi yillarda bu oqim oʻzgara boshladi. Bu hikoya aynan shu oʻzgarish — toʻrt amerikalik talaba Toshkentni «uyim» deb atay boshlagani haqida.',
+        dirTitle: 'Taʼlim yoʻnalishlari', dirIntro: '5 ta yirik maktab tarkibida 38 ta bakalavriat va 22 ta magistratura yoʻnalishi mavjud — uch tilda.', dirCta: 'Barcha dasturlar',
+        directions: [
+          { name: 'Muhandislik maktabi', desc: 'IT, dasturiy injiniring, arxitektura va axborot tizimlari.' },
+          { name: 'Tibbiyot maktabi', desc: 'Ingliz tilidagi MBBS va USMLE yoʻnalishidagi dastur.' },
+          { name: 'Taʼlim maktabi', desc: 'Ingliz va xitoy tili, tarjima, pedagogika.' },
+          { name: 'Sanʼat maktabi', desc: 'Rangtasvir, dizayn va ijodiy yoʻnalishlar.' },
+          { name: 'Biznes va moliya maktabi', desc: 'Bank ishi, moliya, menejment va marketing.' },
+        ],
+        studentsTitle: 'KIUTʼning xalqaro oilasi', studentsIntro: 'Toʻrt yigit, toʻrt sabab — va bir umumiy manzil: Toshkent.',
+        students: [
+          { name: 'Shon Kuma', label: 'AQSh · 24 yosh', quote: '«Agar shuncha oʻzgarish boʻlayotgan boʻlsa, nega oʻz koʻzim bilan koʻrmasligim kerak?»' },
+          { name: 'Josayya Rayg', label: 'Samarqand · Buxoro', quote: 'Buyuk Ipak yoʻli, Samarqand va Buxoro tarixi orqali Oʻzbekistonga keldi.' },
+          { name: 'Jekson Hanter', label: 'Chorsu bozori', quote: '«Eng qiziq va foydali tajribani aynan Oʻzbekistonda topdim.»' },
+          { name: 'Chuka Mekkam', label: 'Yoshlar va sport', quote: 'Basketbol va yoshlarni birlashtirish orqali bu yerga bogʻlandi.' },
+        ],
+        stories: [
+          { title: 'Odamlardan bunchalik mehribonlikni kutmagan edik', text: 'Ularning barchasi bir fikrda: eng kuchli taassurotni aynan odamlar qoldirgan. Jekson Chorsu bozorida adashib qolganida, yoshi katta bir inson Google tarjimon orqali unga yoʻl koʻrsatgan. «Gaplashish qiyin edi, ammo samimiy harakati meni juda taʼsirlantirgan», — deydi u. Shon qoʻshimcha qiladi: «Bu yerdagi eng katta boylik — odamlarning samimiyligi».' },
+          { title: 'Bu universitet bizga faqat dars emas, tajriba ham berdi', text: 'Josayyaning aytishicha, bu yerdagi muhit oddiy universitet taʼlimidan koʻra koʻproq hayot maktabi. Jekson universitet xalqaro boʻlimining doimiy koʻmagi moslashuvni ancha yengillashtirganini taʼkidlaydi. Shon esa KIUTʼni imkoniyatlar markazi deb biladi: bu yerda u nafaqat bilim olgan, balki dars bergan, madaniyat almashgan.' },
+          { title: 'Oʻzbekistonni taomlar orqali ham sevib qoldim', text: 'Shon osh haqida: «Birinchi marta osh yegan kunimni yaxshi eslayman. Hozir u kundalik hayotimning bir qismi». Lagʻmon haqida kulib qoʻshadi: «Lagʻmon insoniyatga berilgan eng yaxshi sovgʻalardan biri boʻlsa kerak». Josayyaning eng sevimli taomi — mastava. Chuka esa: «Bu yerda ovqat shunchaki qorin toʻydirish emas, u odamlarni bir dasturxon atrofida jamlaydi».' },
+          { title: 'Doʻstlik tillarni ham, chegaralarni ham tanlamaydi', text: 'Shon spaykbol oʻyini orqali oʻzbekistonlik yigit bilan tanishgan, bu doʻstlikka aylangan: «Tillar har xil, madaniyatlar farq qiladi, ammo insonlar qalban bir-biriga juda oʻxshash». Josayya birinchi semestrdayoq mahalliy talabalar bilan doʻstlashgan: «Bu yerda doʻst topish oʻylagandan oson boʻldi».' },
+        ],
+        galleryTitle: 'Toshkentdagi hayot kadrlarda',
+        gallery: ['Samarqand — Shohi Zinda', 'Milliy sozlar bilan tanishuv', 'Kampusdagi basketbol maydoni', 'KIUT maskoti bilan', 'Oʻzbekiston bayrogʻi ostida', 'Mehmonlarni kutib olish', 'Talabalar suhbati', 'Ikki madaniyat — bir makon', 'Kampus hovlisida', 'Play the drum, win KIUT gifts', 'Ochiq eshiklar kuni', 'Milliy libosda'],
+        quotesTitle: 'Ularning soʻzlari bilan',
+        quotes: [
+          { text: 'Bu yerdagi eng katta boylik — odamlarning samimiyligi.', who: 'Shon Kuma' },
+          { text: 'Men Oʻzbekistonda oʻzimni hech qachon yolgʻiz his qilmaganman.', who: 'Chuka Mekkam' },
+          { text: 'Tillar har xil boʻlishi mumkin, madaniyatlar farq qiladi, ammo insonlar qalban bir-biriga oʻxshash.', who: 'Shon Kuma' },
+          { text: 'Menga eng yoqqan taom — mastava. Ular bizga oʻzimizni uydagidek his qilishga yordam berdi.', who: 'Josayya Rayg' },
+        ],
+        homeTitle: { pre: 'Bu yer bizning ', accent: 'ikkinchi uyimizga', post: ' aylandi' },
+        homeBody: 'Bir safar Josayya Amerikaga doʻstining toʻyiga qaytdi. «Hamma narsa tanish edi, ammo oʻshanda tushundimki, bu endi mening uyim emas». Oradan koʻp oʻtmay u yana Toshkentga qaytdi. Samolyot qoʻngach, xayolidan bir fikr oʻtdi: «Men uyga qaytdim».',
+        kiutStats: [
+          { num: '2018', label: 'Birinchi xususiy universitet' },
+          { num: '3 shahar', label: 'Toshkent, Namangan, Samarqand' },
+          { num: '50+', label: 'Xorijiy hamkor universitet' },
+          { num: '2+2', label: 'Koreya bilan qoʻshma dastur' },
+        ],
+        admTitle: 'Siz ham oʻz hikoyangizni shu yerdan boshlang', admSub: 'KIUTʼda 2026/2027 oʻquv yiliga qabul boshlandi.', admLink: 'Batafsil',
+        admCards: [
+          { title: 'Bakalavriat', body: 'Kunduzgi va kechki taʼlim — oʻzbek, rus va ingliz tillarida.' },
+          { title: 'Magistratura', body: 'Magistratura dasturlari boʻyicha qabul va yoʻnalishlar.' },
+          { title: 'Grantlar va stipendiyalar', body: 'Isteʼdodli va xorijiy talabalar uchun moliyaviy imkoniyatlar.' },
+          { title: '2+2 qoʻshma taʼlim dasturi', body: 'Koreya universitetlari bilan xalqaro diplom imkoniyati.' },
+        ],
+        admAddress: 'Manzil: Toshkent, Yakkasaroy tumani, Sh. Rustaveli koʻchasi, 156',
+        adLabel: 'Reklama · Maxsus loyiha',
+      },
+      ru: {
+        apply: 'Подать заявку', watch: 'Смотреть видео', joint: 'Совместный проект', followUs: 'Свяжитесь с нами', allLinks: 'Все ссылки',
+        heroTitle: { pre: 'Мы приехали учиться. ', accent: 'Но', post: ' Узбекистан дал больше, чем мы ожидали.' },
+        heroLead: 'У каждого есть своя страна мечты. Теперь и Узбекистан становится таким выбором. Кто-то стремится в США, кто-то в Европу, кто-то в Азию. Но в последние годы этот поток начал меняться. Эта история — о том, как четверо американцев начали называть Ташкент домом.',
+        dirTitle: 'Направления обучения', dirIntro: 'В составе 5 крупных школ — 38 бакалаврских и 22 магистерских направления, на трёх языках.', dirCta: 'Все программы',
+        directions: [
+          { name: 'Инженерная школа', desc: 'IT, программная инженерия, архитектура и информационные системы.' },
+          { name: 'Медицинская школа', desc: 'Программа MBBS на английском и подготовка к USMLE.' },
+          { name: 'Школа образования', desc: 'Английский и китайский языки, перевод, педагогика.' },
+          { name: 'Школа искусств', desc: 'Живопись, дизайн и творческие направления.' },
+          { name: 'Школа бизнеса и финансов', desc: 'Банковское дело, финансы, менеджмент и маркетинг.' },
+        ],
+        studentsTitle: 'Международная семья KIUT', studentsIntro: 'Четверо парней, четыре причины — и один общий адрес: Ташкент.',
+        students: [
+          { name: 'Шон Кума', label: 'США · 24 года', quote: '«Если происходит столько перемен — почему бы не увидеть их своими глазами?»' },
+          { name: 'Джосайя Райг', label: 'Самарканд · Бухара', quote: 'Пришёл через историю Великого шёлкового пути, Самарканда и Бухары.' },
+          { name: 'Джексон Хантер', label: 'Базар Чорсу', quote: '«Самый интересный и полезный опыт я нашёл именно в Узбекистане.»' },
+          { name: 'Чука Меккам', label: 'Молодёжь и спорт', quote: 'Связался с этим местом через баскетбол и объединение молодёжи.' },
+        ],
+        stories: [
+          { title: 'Мы не ожидали такой доброты от людей', text: 'Все они сходятся в одном: самое сильное впечатление оставили люди. Когда Джексон заблудился на базаре Чорсу, пожилой человек показал ему дорогу через Google-переводчик. «Говорить было трудно, но его искренность меня поразила», — говорит он. Шон добавляет: «Главное богатство здесь — искренность людей».' },
+          { title: 'Этот университет дал нам не только знания, но и опыт', text: 'По словам Джосайи, здешняя среда — это больше школа жизни, чем обычное университетское образование. Джексон отмечает, что постоянная поддержка международного отдела заметно облегчила адаптацию. А Шон считает KIUT центром возможностей: здесь он не только учился, но и преподавал, обменивался культурой.' },
+          { title: 'Я полюбил Узбекистан и через его кухню', text: 'Шон об оше: «Хорошо помню день, когда впервые попробовал плов. Теперь это часть моей повседневной жизни». О лагмане добавляет со смехом: «Лагман, наверное, один из лучших подарков человечеству». Любимое блюдо Джосайи — мастава. А Чука говорит: «Здесь еда — это не просто насыщение, она собирает людей за одним дастарханом».' },
+          { title: 'Дружба не выбирает ни языков, ни границ', text: 'Шон познакомился с местным парнем за игрой в спайкбол — и это переросло в дружбу: «Языки разные, культуры отличаются, но в душе люди очень похожи». Джосайя подружился с местными студентами уже в первом семестре: «Найти здесь друзей оказалось проще, чем я думал».' },
+        ],
+        galleryTitle: 'Жизнь в Ташкенте — в кадрах',
+        gallery: ['Самарканд — Шахи Зинда', 'Знакомство с нацинструментами', 'Баскетбольная площадка кампуса', 'С маскотом KIUT', 'Под флагом Узбекистана', 'Встреча гостей', 'Беседа студентов', 'Две культуры — одно место', 'Во дворе кампуса', 'Play the drum, win KIUT gifts', 'День открытых дверей', 'В национальном костюме'],
+        quotesTitle: 'Их словами',
+        quotes: [
+          { text: 'Главное богатство здесь — искренность людей.', who: 'Шон Кума' },
+          { text: 'В Узбекистане я никогда не чувствовал себя одиноким.', who: 'Чука Меккам' },
+          { text: 'Языки могут быть разными, культуры отличаются, но в душе люди похожи.', who: 'Шон Кума' },
+          { text: 'Любимое блюдо — мастава. Здесь помогли почувствовать себя как дома.', who: 'Джосайя Райг' },
+        ],
+        homeTitle: { pre: 'Это место стало нашим ', accent: 'вторым домом', post: '' },
+        homeBody: 'Однажды Джосайя вернулся в Америку на свадьбу друга. «Всё было знакомым, но тогда я понял: это уже не мой дом». Вскоре он снова вернулся в Ташкент. Когда самолёт приземлился, в голове мелькнула мысль: «Я вернулся домой».',
+        kiutStats: [
+          { num: '2018', label: 'Первый частный университет' },
+          { num: '3 города', label: 'Ташкент, Наманган, Самарканд' },
+          { num: '50+', label: 'Зарубежных вузов-партнёров' },
+          { num: '2+2', label: 'Совместная программа с Кореей' },
+        ],
+        admTitle: 'Начните свою историю здесь', admSub: 'В KIUT открыт приём на 2026/2027 учебный год.', admLink: 'Подробнее',
+        admCards: [
+          { title: 'Бакалавриат', body: 'Очное и вечернее обучение — на узбекском, русском и английском.' },
+          { title: 'Магистратура', body: 'Приём и направления магистерских программ.' },
+          { title: 'Гранты и стипендии', body: 'Финансовые возможности для талантливых и иностранных студентов.' },
+          { title: 'Совместная программа 2+2', body: 'Международный диплом вместе с университетами Кореи.' },
+        ],
+        admAddress: 'Адрес: Ташкент, Яккасарайский район, ул. Ш. Руставели, 156',
+        adLabel: 'Реклама · Спецпроект',
+      },
+      en: {
+        apply: 'Apply now', watch: 'Watch the film', joint: 'Joint project', followUs: 'Get in touch', allLinks: 'All links',
+        heroTitle: { pre: 'We came to study. ', accent: 'But', post: ' Uzbekistan gave us more than we expected.' },
+        heroLead: 'Everyone has a dream destination. Now Uzbekistan is becoming one too. Some dream of the US, some of Europe, some of Asia. But in recent years the current has shifted. This is the story of that change — of how four American students began to call Tashkent home.',
+        dirTitle: 'Fields of study', dirIntro: 'Five major schools house 38 bachelor’s and 22 master’s programs — in three languages.', dirCta: 'All programs',
+        directions: [
+          { name: 'School of Engineering', desc: 'IT, software engineering, architecture and information systems.' },
+          { name: 'School of Medicine', desc: 'English-taught MBBS and a USMLE track.' },
+          { name: 'School of Education', desc: 'English and Chinese, translation, pedagogy.' },
+          { name: 'School of Arts', desc: 'Painting, design and creative fields.' },
+          { name: 'School of Business & Finance', desc: 'Banking, finance, management and marketing.' },
+        ],
+        studentsTitle: 'KIUT’s international family', studentsIntro: 'Four guys, four reasons — and one shared destination: Tashkent.',
+        students: [
+          { name: 'Sean Kuma', label: 'USA · age 24', quote: '“If this much is changing, why shouldn’t I see it with my own eyes?”' },
+          { name: 'Josiah Raig', label: 'Samarkand · Bukhara', quote: 'Drawn in by the Great Silk Road and the history of Samarkand and Bukhara.' },
+          { name: 'Jackson Hunter', label: 'Chorsu bazaar', quote: '“I found my most interesting and rewarding experience right here in Uzbekistan.”' },
+          { name: 'Chuka Meccam', label: 'Youth & sport', quote: 'Connected here through basketball and bringing young people together.' },
+        ],
+        stories: [
+          { title: 'We didn’t expect such kindness from people', text: 'They all agree on one thing: it was the people who left the deepest impression. When Jackson got lost in the Chorsu bazaar, an older man guided him using Google Translate. “Talking was hard, but his sincerity really moved me,” he says. Sean adds: “The greatest wealth here is the warmth of the people.”' },
+          { title: 'This university gave us not just lessons, but experience', text: 'Josiah says the environment here is more a school of life than ordinary university study. Jackson notes that the international office’s constant support made adapting far easier. Sean sees KIUT as a hub of opportunity: here he didn’t just learn — he taught, and exchanged cultures.' },
+          { title: 'I fell for Uzbekistan through its food, too', text: 'Sean on osh: “I clearly remember the first day I tried plov. Now it’s part of my everyday life.” On lagman he laughs: “Lagman might be one of the best gifts ever given to humanity.” Josiah’s favourite is mastava. And Chuka says: “Here food isn’t just fuel — it gathers people around one table.”' },
+          { title: 'Friendship chooses neither languages nor borders', text: 'Sean met a local guy over a game of spikeball, and it grew into friendship: “Languages differ, cultures differ, but at heart people are very much alike.” Josiah made friends with local students in his very first semester: “Finding friends here was easier than I’d imagined.”' },
+        ],
+        galleryTitle: 'Life in Tashkent, in frames',
+        gallery: ['Samarkand — Shah-i-Zinda', 'Trying national instruments', 'Campus basketball court', 'With the KIUT mascot', 'Under the flag of Uzbekistan', 'Welcoming the guests', 'Students in conversation', 'Two cultures, one place', 'In the campus courtyard', 'Play the drum, win KIUT gifts', 'Open day', 'In national dress'],
+        quotesTitle: 'In their words',
+        quotes: [
+          { text: 'The greatest wealth here is the warmth of the people.', who: 'Sean Kuma' },
+          { text: 'In Uzbekistan I have never once felt alone.', who: 'Chuka Meccam' },
+          { text: 'Languages may differ and cultures vary, but at heart people are alike.', who: 'Sean Kuma' },
+          { text: 'My favourite dish is mastava. They helped us feel right at home.', who: 'Josiah Raig' },
+        ],
+        homeTitle: { pre: 'This place became our ', accent: 'second home', post: '' },
+        homeBody: 'Once Josiah flew back to America for a friend’s wedding. “Everything was familiar, but that’s when I realised: this isn’t my home anymore.” Soon he returned to Tashkent. As the plane landed, one thought crossed his mind: “I’ve come home.”',
+        kiutStats: [
+          { num: '2018', label: 'The first private university' },
+          { num: '3 cities', label: 'Tashkent, Namangan, Samarkand' },
+          { num: '50+', label: 'Foreign partner universities' },
+          { num: '2+2', label: 'Joint program with Korea' },
+        ],
+        admTitle: 'Start your story here, too', admSub: 'Admissions for the 2026/2027 year are now open at KIUT.', admLink: 'Learn more',
+        admCards: [
+          { title: 'Bachelor’s', body: 'Full-time and evening study — in Uzbek, Russian and English.' },
+          { title: 'Master’s', body: 'Admission and tracks across master’s programs.' },
+          { title: 'Grants & scholarships', body: 'Funding for talented and international students.' },
+          { title: '2+2 joint program', body: 'Earn an international degree together with universities in Korea.' },
+        ],
+        admAddress: 'Address: Tashkent, Yakkasaray district, Sh. Rustaveli St, 156',
+        adLabel: 'Advertising · Special project',
+      },
+    };
+
+    const t = T[lang] || T.cyr;
+    const t2 = { ...t };
+    t2.students = t.students.map((s, i) => ({ ...s, img: meta.studentsImg[i], pos: meta.studentsPos[i], delay: i * 80 }));
+    t2.stories = t.stories.map((s, i) => ({ ...s, img: meta.storyImg[i], dir: meta.storyDir[i] }));
+    t2.gallery = t.gallery.map((cap, i) => ({ cap, src: meta.galleryImg[i] }));
+    t2.admCards = t.admCards.map((c, i) => ({ ...c, img: meta.admImg[i], url: meta.admUrl[i] }));
+
+    const langDefs = [
+      { code: 'cyr', label: 'ЎЗ' }, { code: 'lat', label: 'OʻZ' }, { code: 'ru', label: 'РУ' }, { code: 'en', label: 'EN' },
+    ];
+    const langButtons = langDefs.map((l) => ({
+      label: l.label,
+      set: () => this.setLang(l.code),
+      bg: lang === l.code ? '#ffffff' : 'transparent',
+      fg: lang === l.code ? accent : '#6e6e73',
+      weight: lang === l.code ? 600 : 500,
+    }));
+
+    const ig = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
+    const tg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.5 20c-.25 1.1-.92 1.37-1.86.85l-5.14-3.79-2.48 2.39c-.27.27-.5.5-1.03.5l.37-5.24L17.9 6.06c.42-.37-.09-.58-.65-.21L5.2 13.5l-5.06-1.58c-1.1-.34-1.12-1.1.23-1.63L20.5 2.6c.92-.34 1.72.21 1.4 1.7z"/></svg>';
+    const fb = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h2.5l.5-3H14V4.3c0-.86.24-1.45 1.48-1.45H17V.2C16.66.15 15.6 0 14.38 0 11.8 0 10 1.57 10 4.46V6H7.5v3H10v9h4V9z"/></svg>';
+    const li = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.04c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>';
+    const socials = [
+      { name: 'Telegram', url: 'https://t.me/kiut_official', glyph: this._svg(tg) },
+      { name: 'Instagram', url: 'https://www.instagram.com/kiut.uz_rasmiy/', glyph: this._svg(ig) },
+      { name: 'Facebook', url: 'https://www.facebook.com/kiut.uz', glyph: this._svg(fb) },
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/company/yeoju-technical-institute-in-tashkent/', glyph: this._svg(li) },
+    ];
+
+    let videoSrc = videoUrl;
+    if (videoUrl) {
+      const m = videoUrl.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{6,})/);
+      if (m) videoSrc = 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0';
+    }
+
+    return {
+      accentVar: accent, applyUrl, t: t2, langButtons, socials, dirUrl: meta.dirUrl,
+      preOpacity: this.state.loaded ? 0 : 1,
+      preShift: this.state.loaded ? '-100%' : '0%',
+      prePointer: this.state.loaded ? 'none' : 'auto',
+      directions: t2.directions, students: t2.students, stories: t2.stories,
+      gallery: t2.gallery, quotes: t2.quotes, kiutStats: t2.kiutStats, admCards: t2.admCards,
+      videoSrc,
+      showVideo: this.state.showVideo && !!videoSrc,
+      showPoster: !(this.state.showVideo && !!videoSrc),
+      openVideo: () => {
+        if (videoSrc) this.setState({ showVideo: true });
+        else alert('YouTube havolasini Tweaks → videoUrl ga qoʻying.');
+      },
+      scrollVideo: () => {
+        const el = document.getElementById('video');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+      },
+    };
+  }
+
+  _svg(s) { return React.createElement('span', { dangerouslySetInnerHTML: { __html: s }, style: { display: 'inline-flex' } }); }
+}
+</script>
+</body>
+</html>
